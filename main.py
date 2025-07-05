@@ -1,40 +1,29 @@
-def count_chars(book):
-    symbols = [",", ".", "'", '"', "#", "]", "[", "(", ")", "_", "/", "\n", "-", "=", "+", " ", "*",
-               "?", "!", "@", "%", ":", ";", "$", "&", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-    chars = {}
-    for char in book:
-        if char.lower() in symbols:
-            pass
-        elif char.lower() in chars:
-            chars[char.lower()] += 1
-        else:
-            chars[char.lower()] = 1
-
-    return chars
+from stats import count_words
+from stats import count_chars
 
 
-def count_words(sentence):
-    countWords = 0
-    words = sentence.split()
-
-    for word in words:
-        countWords += 1
-
-    return countWords
+def sort_num(item):
+    return item["num"]
 
 
 def main():
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
 
-        print("--- Begin book report ---")
-        print(count_words(file_contents))
+        print("============ BOOKBOT ============")
+        print('Analyzing book found at books/frankenstein.txt')
 
+        print('----------- Word Count ----------')
+        print(f"{count_words(file_contents)} words found in the document")
+
+        print('--------- Character Count -------')
         chars = count_chars(file_contents)
+        chars.sort(reverse=True, key=sort_num)
         for char in chars:
-            print(f"The '{char}' was found {chars[char]} times")
+            if char['char'].isalpha():
+                print(f"{char['char']}: {char['num']}")
 
-        print("--- End book report ---")
+        print("============= END ===============")
 
 
 if __name__ == "__main__":
